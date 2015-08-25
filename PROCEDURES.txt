@@ -1,0 +1,94 @@
+
+/////////////INSERT INTO PRODUCTS////////////////
+
+
+----------create sequence-----------------------
+
+create sequence pro_id
+START WITH     1000
+INCREMENT BY   1
+
+
+
+
+create sequence WORK_REQST_SEQ
+minvalue 0
+start with 1
+increment by 1
+nocache;
+
+
+
+--------Stored Procedure---------------------------
+
+CREATE OR REPLACE PROCEDURE addProduct(
+    --P_PRODUCT_ID IN PRODUCTS.PRODUCT_ID%TYPE,
+	   p_PRODUCT_NAME IN PRODUCTS.PRODUCT_NAME%TYPE,
+	   p_BILLING_SYSTEM  IN PRODUCTS.BILLING_SYSTEM%TYPE,
+	   p_BILLING_CODE IN PRODUCTS.BILLING_CODE%TYPE,
+     p_PRODUCT_TYPE IN PRODUCTS.PRODUCT_TYPE%TYPE,
+     p_PRODUCT_TYPE_VALUE IN PRODUCTS.PRODUCT_TYPE_VALUE%TYPE,
+     p_GRANDFATHERED IN PRODUCTS.GRANDFATHERED%TYPE,
+    -- p_LAST_UPDATED IN PRODUCTS.LAST_UPDATED%TYPE, 
+     p_PROD_STARTDATE IN PRODUCTS.PROD_STARTDATE%TYPE, 
+     p_PROD_ENDDATE IN PRODUCTS.PROD_ENDDATE%TYPE, 
+     p_PRODUCT_DESC IN PRODUCTS.PRODUCT_DESC%TYPE,
+     p_WORK_REQST_NO IN PRODUCTS.WORK_REQST_NO%TYPE)
+AS
+BEGIN
+
+  INSERT INTO PRODUCTS ("PRODUCT_ID","PRODUCT_NAME", "BILLING_SYSTEM", "BILLING_CODE","PRODUCT_TYPE","PRODUCT_TYPE_VALUE","GRANDFATHERED","LAST_UPDATED","PROD_STARTDATE","PROD_ENDDATE","PRODUCT_DESC","WORK_REQST_NO") 
+  VALUES ('P'||to_char(pro_id.nextval), p_PRODUCT_NAME,'BES','007',p_PRODUCT_TYPE, p_PRODUCT_TYPE_VALUE, p_GRANDFATHERED,SYSDATE,p_PROD_STARTDATE,p_PROD_ENDDATE,p_PRODUCT_DESC, p_WORK_REQST_NO);
+  COMMIT;
+END;
+
+
+
+-------Calling the SP---------------------------------
+BEGIN
+   addProduct('Access4_3G_250','BES','B101','BASIC','VES','N','02-JUN-2012','02-JUN-2017','3G Connection , speed :200Mbps','W1');
+END;
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+/////////////INSERT INTO PACKAGES////////////////////
+
+-----------CREATE SEQUENCE----------------------------
+
+create sequence pack_id
+START WITH     100
+INCREMENT BY   1
+
+
+
+--------Stored Procedure---------------------------
+CREATE OR REPLACE PROCEDURE addPackage(
+   
+	   p_PACKAGE_NAME IN PACKAGE.PACKAGE_NAME%TYPE,
+	 
+	   p_BILLING_CODE IN PACKAGE.BILLING_CODE%TYPE,
+     p_CATEGORY_ID IN PACKAGE.CATEGORY_ID %TYPE,
+     
+     p_GRANDFATHERED IN PACKAGE.GRANDFATHERED%TYPE,
+   
+     p_PACKAGE_TYPE IN PACKAGE.PACKAGE_TYPE%TYPE, 
+     
+     p_PKG_DETAIL_DESCR  IN PACKAGE.PKG_DETAIL_DESCR%TYPE,
+     
+     p_PCR_DROP_DATE IN PACKAGE.PKG_DETAIL_DESCR%TYPE,
+     
+     p_WORK_REQST_NO IN PACKAGE.WORK_REQST_NO%TYPE)
+AS
+BEGIN
+
+  INSERT INTO PACKAGE ("PACKAGE_ID","PACKAGE_NAME","BILLING_CODE","CATEGORY_ID","GRANDFATHERED","PACKAGE_TYPE","LAST_UPDATED","PKG_DETAIL_DESCR","PCR_DROP_DATE","WORK_REQST_NO") 
+  VALUES ('Pa'||to_char(pack_id.nextval),p_PACKAGE_NAME,p_BILLING_CODE,p_CATEGORY_ID, p_GRANDFATHERED,p_PACKAGE_TYPE,SYSDATE, p_PKG_DETAIL_DESCR,p_PCR_DROP_DATE,p_WORK_REQST_NO);
+  COMMIT;
+END;
+
+-------Calling the SP---------------------------------
+BEGIN
+   addPackage('VES data','BES','Da','N','Video','Data pack for enterprises','02-JUN-2017','W1');
+END;
